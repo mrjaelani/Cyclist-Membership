@@ -119,7 +119,7 @@ Now we have cleaned and manipulated the data to suit the analysis target, we can
 
 ```{r member vs. non-member use duration, echo=FALSE}
 
-#all_trips$tripduration <- as.numeric(as.character(all_trips$tripduration))
+all_trips$tripduration <- as.numeric(as.character(all_trips$tripduration))
 
 #warning: NAS introduced by coercion, pop-out. The numeric had a comma, therefore I have to fix it below;
 
