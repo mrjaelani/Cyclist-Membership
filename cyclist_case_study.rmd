@@ -19,7 +19,8 @@ Moreover, it's a great time to practice my knowledge and learn more!
 Initially, I wanted to use SQL, during the course we use BigQuery and seems like a fine option, 
 however uploading and getting the dataset into BigQUery was confusing and consume too much time. At this point, I realize I should go through 
 BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. 
-With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. 
+With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. 
+I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. 
 In this run down you will see errors and issues I encounter.
 
 Final words for introduction, this is my first full data analysis after going through seven courses. It is most likely not perfect.
