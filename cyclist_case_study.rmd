@@ -9,17 +9,27 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction
-The study I'm conducting is a capstone project for Google Analytic Course. In Case 1 Study, the datasets are given and guiding questions are also provided to help navigate the case study. 
+The study I'm conducting is a capstone project for Google Analytic Course. In Case 1 Study, the datasets are given and guiding questions are
+also provided to help navigate the case study. 
 
-After downloading the datasets, initially I intend to inspect it using spreadsheets, but it turns two out of four are not able to open, I suspect the size is too large. My options to work with big datasets is to use R or SQL because those are the only programming I'm familiar with. Moreover, it's a great time to practice my knowledge and learn more! 
+After downloading the datasets, initially I intend to inspect it using spreadsheets, but it turns two out of four are not able to open, 
+I suspect the size is too large. My options to work with big datasets is to use R or SQL because those are the only programming I'm familiar with. 
+Moreover, it's a great time to practice my knowledge and learn more! 
 
-Initially, I wanted to use SQL, during the course we use BigQuery and seems like a fine option, however uploading and getting the dataset into BigQUery was confusing and consume too much time. At this point, I realize I should go through BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. In this run down you will see errors and issues I encounter.
+Initially, I wanted to use SQL, during the course we use BigQuery and seems like a fine option, 
+however uploading and getting the dataset into BigQUery was confusing and consume too much time. At this point, I realize I should go through 
+BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. 
+In this run down you will see errors and issues I encounter.
 
 Final words for introduction, this is my first full data analysis after going through seven courses. It is most likely not perfect.
 
 ## Scenario for this activity
 
-In this study, I'm a junior data analyst working in the marketing analyst team at fictional company called Cyclistic, a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. Therefore, my team needs to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, my team will design a new marketing strategy to convert casual riders into annual members. But first, Cyclistic executives must approve the recommendations, so they must be backed up with compelling data insights and professional data visualizations.
+In this study, I'm a junior data analyst working in the marketing analyst team at fictional company called Cyclistic, 
+a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. 
+Therefore, my team needs to understand how casual riders and annual members use Cyclistic bikes differently. 
+From these insights, my team will design a new marketing strategy to convert casual riders into annual members. 
+But first, Cyclistic executives must approve the recommendations, so they must be backed up with compelling data insights and professional data visualizations.
 
 ## Business Goals
 
