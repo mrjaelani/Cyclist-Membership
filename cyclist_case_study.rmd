@@ -251,15 +251,24 @@ After calculating and analyzing the data, there are some interesting key finding
 
 1. How do annual members and casual riders use Cyclistic bikes differently?
   
-  On average, a customer or non-member use the bike a lot longer(in seconds) compared to members in all season. Although the members use the bike for a shorter duration, members borrowed the bike more frequently compared to non-members. Another finding that can indicate how members and non-members use the bike is the frequency of borrowing the bike throughout the week. By looking at the graph, it seems like members use the bikes to commute to work because Monday to Friday number of rides are higher compared to the weekend which where most businesses are closed. In addition, duration of the ride are shorter which is possibly because of work schedule. In contrast, non-members might only use the bike for recreational purpose because the rides are higher on the weekend and not the weekdays. The longer duration might also indicate exploration or recreation because they are not bound by work schedule other they wouldn't have abundance of free time. 
+  On average, a customer or non-member use the bike a lot longer(in seconds) compared to members in all season. 
+  Although the members use the bike for a shorter duration, members borrowed the bike more frequently compared to non-members. 
+  Another finding that can indicate how members and non-members use the bike is the frequency of borrowing the bike throughout the week. 
+  By looking at the graph, it seems like members use the bikes to commute to work because Monday to Friday number of rides are higher compared to the weekend which where most businesses are closed. 
+  In addition, duration of the ride are shorter which is possibly because of work schedule. In contrast, non-members might only use the bike for recreational purpose because the rides are higher on the weekend and not the weekdays. 
+  The longer duration might also indicate exploration or recreation because they are not bound by work schedule other they wouldn't have abundance of free time. 
   
 2. Why would casual riders buy Cyclistic annual memberships?
 
-  Casual riders should buy annual memberships to have peace of mind and save money from the cost of borrowing fee. Casual riders are already using the bikes for a long duration, the ability to borrow anytime without additional cost should be a positive investment. 
+  Casual riders should buy annual memberships to have peace of mind and save money from the cost of borrowing fee. 
+  Casual riders are already using the bikes for a long duration, the ability to borrow anytime without additional cost should be a positive investment. 
 
 3. How can Cyclistic use digital media to influence casual riders to become members?
 
-  From the findings it is clear that casual riders can save a lot more by buying the annual membership. A good time to influence casual rider is probably prior to spring and summer. As seen in the graph, leading up to spring and summer, number of rides increased which is a popular time for people to spend time outside.
+  From the findings it is clear that casual riders can save a lot more by buying the annual membership. 
+  A good time to influence casual rider is probably prior to spring and summer. 
+  As seen in the graph, leading up to spring and summer, number of rides increased which is a popular time for people to spend time outside.
   
 Few limitations:
-  To get a more rounded answer, I think gender and birth year can play a significant role in how we can strategize marketing campaign. For instance, we might need additional dataset that shows relationship between age and gender and digital media use. However, those two variables, gender and birth year, are not complete or have empty values which will not provide an accurate answer.
+  To get a more rounded answer, I think gender and birth year can play a significant role in how we can strategize marketing campaign. 
+  For instance, we might need additional dataset that shows relationship between age and gender and digital media use. However, those two variables, gender and birth year, are not complete or have empty values which will not provide an accurate answer.
