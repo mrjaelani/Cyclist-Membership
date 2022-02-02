@@ -1,0 +1,265 @@
+---
+title: "My Journal on Case 1 Study From Google Analytics Course"
+author: "Mochamad Jaelani"
+output: "Case1".HTML
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+The study I'm conducting is a capstone project for Google Analytic Course. In Case 1 Study, the datasets are given and guiding questions are also provided to help navigate the case study. 
+
+After downloading the datasets, initially I intend to inspect it using spreadsheets, but it turns two out of four are not able to open, I suspect the size is too large. My options to work with big datasets is to use R or SQL because those are the only programming I'm familiar with. Moreover, it's a great time to practice my knowledge and learn more! 
+
+Initially, I wanted to use SQL, during the course we use BigQuery and seems like a fine option, however uploading and getting the dataset into BigQUery was confusing and consume too much time. At this point, I realize I should go through BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. In this run down you will see errors and issues I encounter.
+
+Final words for introduction, this is my first full data analysis after going through seven courses. It is most likely not perfect.
+
+## Scenario for this activity
+
+In this study, I'm a junior data analyst working in the marketing analyst team at fictional company called Cyclistic, a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. Therefore, my team needs to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, my team will design a new marketing strategy to convert casual riders into annual members. But first, Cyclistic executives must approve the recommendations, so they must be backed up with compelling data insights and professional data visualizations.
+
+## Business Goals
+
+Design marketing strategies aimed at converting casual riders into annual members.
+
+## Ask Phase - Guiding Questions
+
+1. How do annual members and casual riders use Cyclistic bikes differently?
+2. Why would casual riders buy Cyclistic annual memberships?
+3. How can Cyclistic use digital media to influence casual riders to become members?
+
+## Prepare phase - Data Source
+
+   The data source for this project is Cyclistic’s historical trip data for 2019.This is a direct source from the company. 
+   
+## Process phase - cleaning and manipulation of data
+
+    In this phase, I will perform data cleaning to make sure data are correct, use same data type, and relevant. The manipulation of data to be performed is adding new variable/column such as day, month, and season, to help with depper analysis among cyclist.
+    
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(magrittr)
+library(knitr)
+library(ggplot2)
+library(tidyverse)
+library(lubridate)
+library(tibble)
+library(tinytex)
+```
+    
+### Importing data
+```{r load data, eval=FALSE, include=FALSE}
+q1_2019 <- read.csv("Divvy_Trips_2019_Q1")
+q2_2019 <- read.csv("Divvy_Trips_2019_Q2")
+q2_2019 <- read.csv("Divvy_Trips_2019_Q3")
+q3_2019 <- read.csv("Divvy_Trips_2019_Q4")
+```
+
+### Look at a sample of the data
+
+Use the `head(),str()' function to preview your data: 
+
+```{r examining your data, echo=TRUE}
+head(q1_2019)
+head(q2_2019)
+head(q3_2019)
+head(q4_2019)
+
+str(q1_2019)
+str(q2_2019)
+str(q3_2019)
+str(q4_2019)
+```
+
+Upon previewing the data, it seems like the column names and data type are all consistent. This should be safe for me to merge the data set later.
+
+### Merge the data 
+
+Since it would be hard to work on four different datasets and calling each one every time, I will merge the data into one which be one year worth of data.
+
+```{r merge data into one, echo=TRUE}
+all_trips <- bind_rows(q1_2019, q2_2019, q3_2019, q4_2019)
+```
+
+```{r check data, echo=TRUE}
+head(all_trips)
+```
+After reviewing the head of the data, things seem to blend nicely, other wise we would have additional variable and error if it can't be merged together
+
+### Additional Column
+
+Recall that we want to gain as many insight as we can about the data. Therefore, adding new column such as weekday and season or months can enrich the findings.
+
+```{r getting months, eval=FALSE, include=FALSE}
+ all_trips$month <- format(as.Date(all_trips$start_time), "%m") #month
+ all_trips$day_of_week <- format(as.Date(all_trips$start_time), "%A") #day of the week
+ all_trips <- mutate(all_trips, month = as.integer(month)) #have to convert because it was char
+ 
+#season usually affect decisions, therefore, I'm going to add season column
+ all_trips <- all_trips %>% mutate(season = 
+                          case_when(month >= 1 & month <=2 ~ 'winter',
+                                    month >= 3 & month <=5 ~ 'spring',
+                                    month >= 6 & month <=8 ~ 'summer',
+                                    month >= 9 & month <=11 ~ 'fall',
+                                    month == 12 ~ 'winter'))
+```
+
+There are columns such as gender and birth year. I would love to see how those affect bike riding, however, some of the row are left blank. If we do use it, the finding may not be accurate because the gender and birth year is not complete. Notice, I didn't erase those rows because it has other useful information.
+
+## Data Analysis
+
+Now we have cleaned and manipulated the data to suit the analysis target, we can start doing some calculations on the dataset.
+
+###Simple Calculation
+
+
+```{r member vs. non-member use duration, echo=FALSE}
+
+#all_trips$tripduration <- as.numeric(as.character(all_trips$tripduration))
+
+#warning: NAS introduced by coercion, pop-out. The numeric had a comma, therefore I have to fix it below;
+
+all_trips$tripduration <- as.numeric(gsub(",","",all_trips$tripduration))
+
+#now tripduration has been fix, redo the above statments
+
+#reduce typing the target list by creating a variable
+time <- all_trips$tripduration #duration
+rtype <- all_trips$rideable_type #rider type
+
+#calculate
+
+aggregate(time ~ rtype, FUN = mean)
+aggregate(time ~ rtype, FUN = median)
+aggregate(time ~ rtype, FUN = max)
+aggregate(time ~ rtype, FUN = min)
+```
+Upon calculating the summary which is mean, media, min, and max, surprisingly, we found that non_members seems to use the bike more than the annual members. 
+
+```{r member vs. non-member use duration by day of the week, echo=TRUE}
+
+#ordering the list
+dw <- ordered(all_trips$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+aggregate(time ~ rtype + dw, FUN = mean)
+```
+
+Upon looking at the result, any day of the week doesn't seem to have significant difference between another. However, we found rider spend more time cycling during the weekends Friday through Sunday. 
+
+```{r member vs. non-member use duration by season, echo=TRUE}
+
+#ordering the list
+season <- ordered(all_trips$season, levels=c("winter", "spring", "summer", "fall"))
+
+aggregate(time ~ rtype + season, FUN = mean)
+
+```
+
+Things to note after calculation;
+
+* Winter followed by summer are the season where riders ride longer 
+I wonder if winter is a harder terrain?
+
+
+```{r member vs. non-member use duration and number of rides by day of week, echo=TRUE}
+
+all_trips %>% 
+  mutate(weekday = wday(start_time, label = TRUE)) %>%  #creates weekday field using wday()
+  group_by(rideable_type, weekday) %>%  #groups by usertype and weekday
+  summarise(number_of_rides = n()							#calculates the number of rides and average duration 
+  ,average_duration = mean(tripduration)) %>% 		# calculates the average duration
+  arrange(weekday, rideable_type)	
+
+```
+
+Things to note after calculation;
+
+* non-member wins by average duration, but member have more number of rides. This means shorter duration might trigger more rides
+* non_member rides more on the weekends
+* member rides more on weekdays compare to the weekends
+
+```{r member vs. non-member use duration and number of rides by season, echo=TRUE}
+
+all_trips %>% 
+  group_by(rideable_type, season) %>%  #groups by usertype and season
+  summarise(number_of_rides = n()							#calculates the number of rides and average duration 
+  ,average_duration = mean(tripduration)) %>% 		# calculates the average duration
+  arrange(season, rideable_type)	
+
+```
+
+Things to note after calculation;
+
+* Season seems to affect riding frequency, winter has lowest number of rides and summer has the highest
+
+
+### Visualization
+
+```{r member vs. non-member use duration and number of rides by day of week graph, echo=TRUE}
+
+all_trips %>% 
+  group_by(rideable_type, day_of_week) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(tripduration)) %>% 
+  arrange(rideable_type, day_of_week)  %>% 
+  ggplot(aes(x = day_of_week, y = number_of_rides, fill = rideable_type)) + scale_fill_discrete(name = "Ride Type") +
+  geom_col(position = "dodge") +  xlab("Day of Week") + ylab("Number of Rides") + labs( title = 'Rides by Day of Week') + theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r member vs. non-member use duration and number of rides by season graph, echo=TRUE}
+
+all_trips %>% 
+  group_by(rideable_type, season) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(tripduration)) %>% 
+  arrange(rideable_type, season)  %>% 
+  ggplot(aes(x = season, y = number_of_rides, fill = rideable_type)) + scale_fill_discrete(name = "Ride Type") +
+  geom_col(position = "dodge") + labs( title = 'Rides by Season') + xlab("Season") + ylab("Number of Rides") + labs( title = 'Rides by Season') + theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r member vs. non-member average duration by day of week graph, echo=TRUE}
+
+all_trips %>% 
+  group_by(rideable_type, day_of_week) %>% 
+  summarise(average_duration = mean(tripduration)) %>% 
+  arrange(rideable_type, day_of_week)  %>% 
+  ggplot(aes(x = day_of_week, y = average_duration, fill = rideable_type)) + scale_fill_discrete(name = "Ride Type") +
+  geom_col(position = "dodge") + labs( title = 'Avg Use Duration') + xlab("Day of Week") + ylab("Avg Duration") + labs( title = 'Avg Duration by Day of Week') + theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r member vs. non-member average duration by season graph, echo=TRUE}
+
+all_trips %>% 
+  group_by(rideable_type, season) %>% 
+  summarise(average_duration = mean(tripduration)) %>% 
+  arrange(rideable_type, season)  %>% 
+  ggplot(aes(x = season, y = average_duration, fill= rideable_type,)) + scale_fill_discrete(name = "Ride Type")+
+  geom_col(position = "dodge") + xlab("Season") + ylab("Avg Duration") + labs( title = 'Avg Duration by Season') + theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+## Conclusion
+
+After calculating and analyzing the data, there are some interesting key findings that answer the initial questions.
+
+1. How do annual members and casual riders use Cyclistic bikes differently?
+  
+  On average, a customer or non-member use the bike a lot longer(in seconds) compared to members in all season. Although the members use the bike for a shorter duration, members borrowed the bike more frequently compared to non-members. Another finding that can indicate how members and non-members use the bike is the frequency of borrowing the bike throughout the week. By looking at the graph, it seems like members use the bikes to commute to work because Monday to Friday number of rides are higher compared to the weekend which where most businesses are closed. In addition, duration of the ride are shorter which is possibly because of work schedule. In contrast, non-members might only use the bike for recreational purpose because the rides are higher on the weekend and not the weekdays. The longer duration might also indicate exploration or recreation because they are not bound by work schedule other they wouldn't have abundance of free time. 
+  
+2. Why would casual riders buy Cyclistic annual memberships?
+
+  Casual riders should buy annual memberships to have peace of mind and save money from the cost of borrowing fee. Casual riders are already using the bikes for a long duration, the ability to borrow anytime without additional cost should be a positive investment. 
+
+3. How can Cyclistic use digital media to influence casual riders to become members?
+
+  From the findings it is clear that casual riders can save a lot more by buying the annual membership. A good time to influence casual rider is probably prior to spring and summer. As seen in the graph, leading up to spring and summer, number of rides increased which is a popular time for people to spend time outside.
+  
+Few limitations:
+  To get a more rounded answer, I think gender and birth year can play a significant role in how we can strategize marketing campaign. For instance, we might need additional dataset that shows relationship between age and gender and digital media use. However, those two variables, gender and birth year, are not complete or have empty values which will not provide an accurate answer.
