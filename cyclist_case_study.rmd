@@ -18,7 +18,8 @@ Moreover, it's a great time to practice my knowledge and learn more!
 
 Initially, I wanted to use SQL, during the course we use BigQuery and seems like a fine option, 
 however uploading and getting the dataset into BigQUery was confusing and consume too much time. At this point, I realize I should go through 
-BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. 
+BigQuery or other SQL tool later. Now, my last resort is R using Rstudio. Both SQL and R are very new to me. 
+With little bit of exposure to python, visual basic, and java, the syntax od R are somewhat similar. I affirm myself, R would be the choice to do the my data analysis even though I'm not expert on it. 
 In this run down you will see errors and issues I encounter.
 
 Final words for introduction, this is my first full data analysis after going through seven courses. It is most likely not perfect.
@@ -47,7 +48,8 @@ Design marketing strategies aimed at converting casual riders into annual member
    
 ## Process phase - cleaning and manipulation of data
 
-    In this phase, I will perform data cleaning to make sure data are correct, use same data type, and relevant. The manipulation of data to be performed is adding new variable/column such as day, month, and season, to help with depper analysis among cyclist.
+    In this phase, I will perform data cleaning to make sure data are correct, use same data type, and relevant. 
+    The manipulation of data to be performed is adding new variable/column such as day, month, and season, to help with depper analysis among cyclist.
     
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -85,11 +87,13 @@ str(q3_2019)
 str(q4_2019)
 ```
 
-Upon previewing the data, it seems like the column names and data type are all consistent. This should be safe for me to merge the data set later.
+Upon previewing the data, it seems like the column names and data type are all consistent. 
+This should be safe for me to merge the data set later.
 
 ### Merge the data 
 
-Since it would be hard to work on four different datasets and calling each one every time, I will merge the data into one which be one year worth of data.
+Since it would be hard to work on four different datasets and calling each one every time, 
+I will merge the data into one which be one year worth of data.
 
 ```{r merge data into one, echo=TRUE}
 all_trips <- bind_rows(q1_2019, q2_2019, q3_2019, q4_2019)
@@ -98,11 +102,13 @@ all_trips <- bind_rows(q1_2019, q2_2019, q3_2019, q4_2019)
 ```{r check data, echo=TRUE}
 head(all_trips)
 ```
-After reviewing the head of the data, things seem to blend nicely, other wise we would have additional variable and error if it can't be merged together
+After reviewing the head of the data, things seem to blend nicely, other wise we would have additional variable 
+and error if it can't be merged together
 
 ### Additional Column
 
-Recall that we want to gain as many insight as we can about the data. Therefore, adding new column such as weekday and season or months can enrich the findings.
+Recall that we want to gain as many insight as we can about the data. 
+Therefore, adding new column such as weekday and season or months can enrich the findings.
 
 ```{r getting months, eval=FALSE, include=FALSE}
  all_trips$month <- format(as.Date(all_trips$start_time), "%m") #month
@@ -118,7 +124,10 @@ Recall that we want to gain as many insight as we can about the data. Therefore,
                                     month == 12 ~ 'winter'))
 ```
 
-There are columns such as gender and birth year. I would love to see how those affect bike riding, however, some of the row are left blank. If we do use it, the finding may not be accurate because the gender and birth year is not complete. Notice, I didn't erase those rows because it has other useful information.
+There are columns such as gender and birth year. I would love to see how those affect bike riding, 
+however, some of the row are left blank. If we do use it, 
+the finding may not be accurate because the gender and birth year is not complete. 
+Notice, I didn't erase those rows because it has other useful information.
 
 ## Data Analysis
 
@@ -148,7 +157,8 @@ aggregate(time ~ rtype, FUN = median)
 aggregate(time ~ rtype, FUN = max)
 aggregate(time ~ rtype, FUN = min)
 ```
-Upon calculating the summary which is mean, media, min, and max, surprisingly, we found that non_members seems to use the bike more than the annual members. 
+Upon calculating the summary which is mean, media, min, and max, 
+surprisingly, we found that non_members seems to use the bike more than the annual members. 
 
 ```{r member vs. non-member use duration by day of the week, echo=TRUE}
 
@@ -157,7 +167,8 @@ dw <- ordered(all_trips$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "We
 aggregate(time ~ rtype + dw, FUN = mean)
 ```
 
-Upon looking at the result, any day of the week doesn't seem to have significant difference between another. However, we found rider spend more time cycling during the weekends Friday through Sunday. 
+Upon looking at the result, any day of the week doesn't seem to have significant difference between another. 
+However, we found rider spend more time cycling during the weekends Friday through Sunday. 
 
 ```{r member vs. non-member use duration by season, echo=TRUE}
 
@@ -264,8 +275,10 @@ After calculating and analyzing the data, there are some interesting key finding
   On average, a customer or non-member use the bike a lot longer(in seconds) compared to members in all season. 
   Although the members use the bike for a shorter duration, members borrowed the bike more frequently compared to non-members. 
   Another finding that can indicate how members and non-members use the bike is the frequency of borrowing the bike throughout the week. 
-  By looking at the graph, it seems like members use the bikes to commute to work because Monday to Friday number of rides are higher compared to the weekend which where most businesses are closed. 
-  In addition, duration of the ride are shorter which is possibly because of work schedule. In contrast, non-members might only use the bike for recreational purpose because the rides are higher on the weekend and not the weekdays. 
+  By looking at the graph, it seems like members use the bikes to commute to work because 
+  Monday to Friday number of rides are higher compared to the weekend which where most businesses are closed. 
+  In addition, duration of the ride are shorter which is possibly because of work schedule. 
+  In contrast, non-members might only use the bike for recreational purpose because the rides are higher on the weekend and not the weekdays. 
   The longer duration might also indicate exploration or recreation because they are not bound by work schedule other they wouldn't have abundance of free time. 
   
 2. Why would casual riders buy Cyclistic annual memberships?
@@ -281,4 +294,5 @@ After calculating and analyzing the data, there are some interesting key finding
   
 Few limitations:
   To get a more rounded answer, I think gender and birth year can play a significant role in how we can strategize marketing campaign. 
-  For instance, we might need additional dataset that shows relationship between age and gender and digital media use. However, those two variables, gender and birth year, are not complete or have empty values which will not provide an accurate answer.
+  For instance, we might need additional dataset that shows relationship between age and gender and digital media use.
+  However, those two variables, gender and birth year, are not complete or have empty values which will not provide an accurate answer.
